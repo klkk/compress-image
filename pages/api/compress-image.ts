@@ -12,7 +12,7 @@ export const config = {
 const parseForm = (req: NextApiRequest): Promise<{file: Buffer, mimetype: string, quality: number}> => {
   return new Promise((resolve, reject) => {
     const form = formidable({ multiples: false });
-    form.parse(req, (err, fields, files) => {
+    form.parse(req, (err: any, fields: formidable.Fields, files: formidable.Files) => {
       if (err) return reject(err);
       const f = files.file as formidable.File;
       const mimetype = f.mimetype || "image/jpeg";
