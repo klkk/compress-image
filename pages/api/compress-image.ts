@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import sharp from "sharp";
-import formidable from "formidable";
+import formidable, { Fields, Files, File } from "formidable";
 import fs from "fs";
 
 export const config = {
@@ -12,9 +12,9 @@ export const config = {
 const parseForm = (req: NextApiRequest): Promise<{file: Buffer, mimetype: string, quality: number}> => {
   return new Promise((resolve, reject) => {
     const form = formidable({ multiples: false });
-    form.parse(req, (err: any, fields: formidable.Fields, files: formidable.Files) => {
+    form.parse(req, (err: any, fields: Fields, files: Files) => {
       if (err) return reject(err);
-      const f = files.file as formidable.File;
+      const f = files.file as File;
       const mimetype = f.mimetype || "image/jpeg";
       let quality = parseInt(fields.quality as string) || 70;
       if (quality < 10) quality = 10;
